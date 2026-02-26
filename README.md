@@ -4,7 +4,6 @@ AI-Powered Institutional Intelligence for Payment Systems
 Sector: Emerging Technology (AI) + Payments
 Hackathon: Interswitch × Enyata Buildathon 2026
 
----
 # Overview
 
 We are building a system that integrates Interswitch APIs to provide real-time payment insights, and transaction reasoning for businesses.
@@ -13,7 +12,6 @@ Modern enterprises generate massive volumes of transaction data but dashboards d
 
 Our system goes beyond analytics. It interprets, explains, and preserves financial operational knowledge using advanced LLM-driven reasoning.
 
----
 # The Problem
 Businesses using payment infrastructure often struggle with:
 
@@ -54,7 +52,6 @@ You can ask:
 
 And get structured, explainable answers.
 
----
 
 # Architecture Overview
 
@@ -84,7 +81,6 @@ And get structured, explainable answers.
 
 - Real-time query processing
 
---- 
 
 # Tech Stack
 
@@ -146,8 +142,6 @@ Our system adds an intelligence layer to African fintech infrastructure to enabl
 
 - Stronger institutional continuity
 
----
-
 # Team Fortress
 
 ### Michael David — Full Stack Software Engineer
@@ -166,7 +160,6 @@ Our system adds an intelligence layer to African fintech infrastructure to enabl
 
 - Payment intelligence logic
 
----
 
 # Built For
 
