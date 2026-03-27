@@ -1,0 +1,41 @@
+import { cn } from '@/lib/utils';
+
+interface LogoProps {
+    className?: string;
+    showText?: boolean;
+    size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+}
+
+export function Logo({ className, showText = true, size = 'md' }: LogoProps) {
+    const sizeClasses = {
+        sm: 'h-6 w-6',
+        md: 'h-8 w-8',
+        lg: 'h-10 w-10',
+        xl: 'h-12 w-auto',
+        '2xl': 'h-14 w-auto',
+    };
+
+    const textSizeClasses = {
+        sm: 'text-lg',
+        md: 'text-xl',
+        lg: 'text-2xl',
+        xl: 'text-3xl',
+        '2xl': 'text-4xl',
+    };
+
+    return (
+        <div className={cn('flex items-center gap-2.5', className)}>
+            <div className={cn(
+                'relative flex items-center justify-center',
+                sizeClasses[size]
+            )}>
+                <img
+                    src="/Fortress_Logo.png"
+                    alt="Fortress Logo"
+                    className="h-full w-full object-contain"
+                />
+            </div>
+
+        </div>
+    );
+}
