@@ -14,10 +14,7 @@ AI_ASSISTANT_PATH = Path(__file__).resolve().parent.parent.parent / "ai-support-
 sys.path.insert(0, str(AI_ASSISTANT_PATH))
 sys.path.insert(0, str(AI_ASSISTANT_PATH / "app"))
 
-# Import RAG components
-import chromadb
-from sentence_transformers import SentenceTransformer
-from answer_engine import generate_answer
+# Heavy ML components will be lazy-imported to prevent timeouts
 
 app = FastAPI(title="Intelligence API")
 
@@ -57,10 +54,12 @@ def query_rag(question: str, n_results: int = 5):
     
     if model is None:
         print("⏳ Lazy loading SentenceTransformer (this takes a moment on boot)...")
+        from sentence_transformers import SentenceTransformer
         model = SentenceTransformer("all-MiniLM-L6-v2")
         
     if collection is None:
         print("⏳ Connecting to Vector Database...")
+        import chromadb
         client = chromadb.PersistentClient(path=str(VECTOR_DIR))
         collection = client.get_or_create_collection("support_knowledge")
     
@@ -101,6 +100,7 @@ async def chat_endpoint(request: ChatRequest):
         }
     
     # Use LLM to generate a natural language answer from the documents
+    from answer_engine import generate_answer
     llm_response = generate_answer(request.message, documents)
     
     return {
