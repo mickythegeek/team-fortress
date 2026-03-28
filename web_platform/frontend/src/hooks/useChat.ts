@@ -119,10 +119,11 @@ export function useChat() {
         setMessages(prev => [...prev, assistantMessage]);
 
         try {
-            const response = await fetch('http://localhost:8000/api/chat', {
+            const response = await fetch('https://silver-animals-repair.loca.lt/api/chat', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Bypass-Tunnel-Reminder': 'true'
                 },
                 body: JSON.stringify({ message: content.trim() }),
             });

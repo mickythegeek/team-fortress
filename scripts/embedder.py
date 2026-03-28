@@ -20,7 +20,7 @@ def main():
     print("🧠 Starting embedding & vectorization process...\n")
     
     # Load chunks
-    chunks_path = Path("../data/chunks.json")
+    chunks_path = Path("../ai-support-assistant/data/chunks.json")
     if not chunks_path.exists():
         print(f"❌ Chunks file not found: {chunks_path}")
         print("   Run: python scripts/chunker.py first!")
@@ -33,18 +33,14 @@ def main():
     model = SentenceTransformer(MODEL_NAME)
     
     # Initialize ChromaDB
-    vectorstore_path = Path("../data/vectorstore")
+    vectorstore_path = Path("../ai-support-assistant/data/vectorstore")
     vectorstore_path.mkdir(parents=True, exist_ok=True)
     
-    client = chromadb.Client(Settings(
-        chroma_db_impl="duckdb_parquet",
-        persist_directory=str(vectorstore_path),
-        anonymized_telemetry=False
-    ))
+    client = chromadb.PersistentClient(path=str(vectorstore_path))
     
     # Create or get collection
     collection = client.get_or_create_collection(
-        name="interswitch_docs",
+        name="support_knowledge",
         metadata={"hnsw:space": "cosine"}
     )
     
@@ -69,8 +65,7 @@ def main():
         if (i + 1) % 10 == 0:
             print(f"   ✓ Embedded {i + 1}/{len(chunks)} chunks")
     
-    # Persist to disk
-    client.persist()
+    # Persist happens automatically with PersistentClient
     
     print(f"\n✅ Embedding complete!")
     print(f"   📊 Total embeddings: {len(chunks)}")

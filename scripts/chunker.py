@@ -73,7 +73,7 @@ def main():
     print("📚 Starting chunking process...\n")
     
     # Read markdown files
-    markdown_files = read_markdown_files("../knowledge_base")
+    markdown_files = read_markdown_files("../ai-support-assistant/knowledge_base")
     
     if not markdown_files:
         print("❌ No markdown files found!")
@@ -86,6 +86,7 @@ def main():
         print(f"\n📄 Processing: {md_file['filename']}")
         
         metadata = extract_metadata(md_file['content'])
+        metadata['source_file'] = md_file['filename']
         chunks = split_into_chunks(md_file['content'])
         
         for chunk_text in chunks:
@@ -101,7 +102,7 @@ def main():
         print(f"   ✓ Created {len(chunks)} chunks from {md_file['filename']}")
     
     # Save chunks to JSON
-    output_path = Path("../data/chunks.json")
+    output_path = Path("../ai-support-assistant/data/chunks.json")
     output_path.parent.mkdir(parents=True, exist_ok=True)
     
     with open(output_path, "w", encoding="utf-8") as f:

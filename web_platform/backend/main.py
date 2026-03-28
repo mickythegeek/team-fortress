@@ -4,6 +4,10 @@ from pydantic import BaseModel
 from typing import List, Optional
 from pathlib import Path
 import sys
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Add ai-support-assistant to Python path for imports
 AI_ASSISTANT_PATH = Path(__file__).resolve().parent.parent.parent / "ai-support-assistant"
@@ -37,7 +41,7 @@ async def startup_event():
     print("🚀 Initializing RAG pipeline...")
     model = SentenceTransformer("all-MiniLM-L6-v2")
     client = chromadb.PersistentClient(path=str(VECTOR_DIR))
-    collection = client.get_collection("support_knowledge")
+    collection = client.get_or_create_collection("support_knowledge")
     print(f"📦 Loaded {collection.count()} documents from vector store")
     print("🤖 LLM (Gemini) answer engine loaded")
 

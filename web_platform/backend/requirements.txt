@@ -7,3 +7,5 @@ python-multipart
 # RAG Pipeline Dependencies
 chromadb>=0.4.0
 sentence-transformers>=2.2.0
+python-dotenv>=1.0.0
+google-generativeai>=0.3.0

@@ -8,14 +8,9 @@ import google.generativeai as genai
 load_dotenv()
 
 # Configure Gemini
-api_key = os.getenv("GEMINI_API_KEY")
-if not api_key:
-    raise ValueError("GEMINI_API_KEY environment variable is not set.")
+# We no longer load the key here, it's done dynamically in generate_answer
 
-genai.configure(api_key=api_key)
-
-# Gemini model
-model = genai.GenerativeModel("gemini-2.0-flash")
+# We will instantiate the model in generate_answer
 
 # Load system prompt
 PROMPT_PATH = Path(__file__).parent / "prompts" / "system_prompt.txt"
@@ -66,6 +61,12 @@ def normalize_context(text: str) -> str:
     )
 
 def generate_answer(question: str, context_docs: list[str], max_retries: int = 3) -> str:
+    api_key = os.getenv("GEMINI_API_KEY")
+    if not api_key:
+        return "An API key for Gemini must be set in your environment variables to use this feature."
+    genai.configure(api_key=api_key)
+    model = genai.GenerativeModel("gemini-2.0-flash")
+
     if not context_docs:
         return "I do not have enough information from my database to accurately answer this question."
 
