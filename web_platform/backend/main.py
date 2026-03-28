@@ -37,13 +37,7 @@ collection = None
 
 @app.on_event("startup")
 async def startup_event():
-    global model, collection
-    print("🚀 Initializing RAG pipeline...")
-    model = SentenceTransformer("all-MiniLM-L6-v2")
-    client = chromadb.PersistentClient(path=str(VECTOR_DIR))
-    collection = client.get_or_create_collection("support_knowledge")
-    print(f"📦 Loaded {collection.count()} documents from vector store")
-    print("🤖 LLM (Gemini) answer engine loaded")
+    print("🚀 FastAPI Server starting! ML components will load lazily.")
 
 class ChatRequest(BaseModel):
     message: str
@@ -59,8 +53,16 @@ class ChatResponse(BaseModel):
 
 def query_rag(question: str, n_results: int = 5):
     """Query the RAG pipeline and return results with sources."""
-    if model is None or collection is None:
-        return [], []
+    global model, collection
+    
+    if model is None:
+        print("⏳ Lazy loading SentenceTransformer (this takes a moment on boot)...")
+        model = SentenceTransformer("all-MiniLM-L6-v2")
+        
+    if collection is None:
+        print("⏳ Connecting to Vector Database...")
+        client = chromadb.PersistentClient(path=str(VECTOR_DIR))
+        collection = client.get_or_create_collection("support_knowledge")
     
     query_embedding = model.encode(question).tolist()
     results = collection.query(
