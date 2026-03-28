@@ -119,7 +119,8 @@ export function useChat() {
         setMessages(prev => [...prev, assistantMessage]);
 
         try {
-            const response = await fetch('https://silver-animals-repair.loca.lt/api/chat', {
+            const apiUrl = import.meta.env.VITE_API_URL ? `${import.meta.env.VITE_API_URL}/api/chat` : 'http://localhost:8000/api/chat';
+            const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

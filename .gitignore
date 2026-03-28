@@ -36,10 +36,10 @@ __pycache__/
 *.pyo
 
 answer_engine.cpython-313.pyc
-chroma.sqlite3
-data_level0.bin
-length.bin
-knowledge_base
-knowledge_base_raw
-ai-support-assistant/data
+# chroma.sqlite3 (UNIGNORED FOR RENDER)
+# data_level0.bin (UNIGNORED FOR RENDER)
+# length.bin (UNIGNORED FOR RENDER)
+# knowledge_base (UNIGNORED FOR RENDER)
+# knowledge_base_raw (UNIGNORED FOR RENDER)
+# ai-support-assistant/data (UNIGNORED FOR RENDER)
 .venv/
