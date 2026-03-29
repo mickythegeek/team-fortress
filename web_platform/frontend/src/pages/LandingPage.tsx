@@ -209,7 +209,7 @@ function ChatPreview() {
                     <Sparkles className="w-4 h-4 text-white" />
                 </div>
                 <div>
-                    <div className="text-sm font-semibold text-foreground">Fortress Copilot</div>
+                    <div className="text-sm font-semibold text-foreground">FORTRESS</div>
                     <div className="text-xs text-muted-foreground flex items-center gap-1">
                         <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
                         Online
@@ -298,7 +298,7 @@ export default function LandingPage() {
         {
             icon: BookOpen,
             title: 'AI searches the documentation',
-            description: 'Our RAG engine retrieves the most relevant sections from Interswitch\'s official API docs.',
+            description: 'FORTRESS engine retrieves the most relevant sections from Interswitch\'s official API docs.',
         },
         {
             icon: Zap,
@@ -328,7 +328,7 @@ export default function LandingPage() {
                                 onClick={() => navigate('/chat')}
                                 className="rounded-full px-6"
                             >
-                                Try the Copilot
+                                Try FORTRESS
                                 <ArrowRight className="w-4 h-4 ml-2" />
                             </Button>
                         </div>
@@ -357,10 +357,6 @@ export default function LandingPage() {
                         <div className="text-center lg:text-left">
                             <AnimatedSection delay={100}>
                                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-card/80 border border-border/60 shadow-soft mb-8 backdrop-blur-sm">
-                                    <span className="flex items-center gap-1.5 text-sm font-medium text-primary">
-                                        <Sparkles className="w-3.5 h-3.5" />
-                                        POWERED BY RAG
-                                    </span>
                                     <span className="text-border">|</span>
                                     <span className="text-sm font-medium isw-accent">
                                         🏗️ BUILDATHON 2026
@@ -370,10 +366,7 @@ export default function LandingPage() {
 
                             <AnimatedSection delay={200}>
                                 <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 leading-[1.05]">
-                                    <span className="text-foreground">Your AI</span>
-                                    <br />
-                                    <span className="text-gradient">Copilot</span>
-                                    <span className="text-foreground"> for</span>
+                                    <span className="text-foreground">Your Copilot for</span>
                                     <br />
                                     <span className="gradient-isw-text">Interswitch APIs</span>
                                 </h1>
@@ -381,7 +374,7 @@ export default function LandingPage() {
 
                             <AnimatedSection delay={300}>
                                 <p className="text-lg md:text-xl text-muted-foreground max-w-xl mb-10 leading-relaxed">
-                                    Navigate Interswitch's API ecosystem with AI. Get instant answers about authentication, token generation, transactions, error codes, web checkout, and more — all powered by intelligent document retrieval.
+                                    Navigate Interswitch's API ecosystem with AI. Get instant answers about authentication, token generation, transactions, error codes, web checkout, and more. All powered by intelligent document retrieval.
                                 </p>
                             </AnimatedSection>
 
@@ -393,7 +386,7 @@ export default function LandingPage() {
                                         onClick={() => navigate('/chat')}
                                         className="rounded-full px-10 shadow-glow"
                                     >
-                                        Try the Copilot
+                                        Try FORTRESS
                                         <ArrowRight className="w-5 h-5 ml-2" />
                                     </Button>
                                     <Button
@@ -468,7 +461,7 @@ export default function LandingPage() {
                             What Can It Do?
                         </h2>
                         <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                            Your AI copilot knows every corner of the Interswitch API documentation
+                            FORTRESS knows every corner of the Interswitch API documentation
                         </p>
                     </AnimatedSection>
 
@@ -570,7 +563,7 @@ export default function LandingPage() {
                             Ready to Build with <span className="isw-accent">Interswitch</span>?
                         </h2>
                         <p className="text-xl text-muted-foreground mb-10 max-w-xl mx-auto">
-                            Stop searching through docs manually. Ask your AI Copilot and get instant, cited answers about any Interswitch API.
+                            Stop searching through docs manually. Ask FORTRESS and get instant, cited answers about any Interswitch API.
                         </p>
                         <Button
                             variant="gradient"
@@ -590,7 +583,7 @@ export default function LandingPage() {
                 <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
                     <Logo size="sm" showInterswitch />
                     <p className="text-muted-foreground text-sm text-center md:text-right">
-                        Built for <span className="font-semibold isw-accent">Interswitch Buildathon 2026</span> by Team Fortress
+                        Built for <span className="font-semibold isw-accent">Interswitch Buildathon 2026</span> by Team FORTRESS
                     </p>
                 </div>
             </footer>

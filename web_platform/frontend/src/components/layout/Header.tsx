@@ -47,10 +47,8 @@ export function Header({
                 {/* Breadcrumb / Context */}
                 <div className="hidden sm:flex items-center gap-2 text-sm text-muted-foreground">
                     <span className="px-2 py-1 rounded-md bg-isw-red-light text-isw-red font-medium text-xs">
-                        Interswitch Copilot
+                        V1.0
                     </span>
-                    <span>•</span>
-                    <span>Powered by RAG</span>
                 </div>
             </div>
 

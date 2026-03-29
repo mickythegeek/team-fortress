@@ -42,7 +42,7 @@ export function Logo({ className, showText = true, size = 'md', showInterswitch 
                         'font-bold tracking-tight text-foreground',
                         textSizeClasses[size]
                     )}>
-                        Fortress
+                        FORTRESS
                     </span>
                     {showInterswitch && (
                         <>
