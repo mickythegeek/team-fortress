@@ -7,24 +7,24 @@ const generateId = () => Math.random().toString(36).substring(2, 15);
 const mockSources: Source[] = [
     {
         id: '1',
-        title: 'Fortress Documentation',
-        url: 'https://docs.Fortress.ai/getting-started',
-        snippet: 'Fortress Intelligence provides comprehensive knowledge management solutions...',
-        favicon: '📚'
+        title: 'Interswitch Authentication Guide',
+        url: 'https://docs.interswitchgroup.com/docs/authentication',
+        snippet: 'Interswitch APIs use HMAC-SHA512 for request signing. Generate an Authorization header using your client ID and secret key...',
+        favicon: '🔐'
     },
     {
         id: '2',
-        title: 'AI Knowledge Systems Best Practices',
-        url: 'https://research.ai/knowledge-systems',
-        snippet: 'Modern AI knowledge systems leverage vector embeddings for semantic search...',
-        favicon: '🔬'
+        title: 'Payment API Reference',
+        url: 'https://docs.interswitchgroup.com/docs/payment-api',
+        snippet: 'The QuickTeller Payment API allows merchants to initiate and process payments through multiple channels...',
+        favicon: '💳'
     },
     {
         id: '3',
-        title: 'Enterprise Data Management',
-        url: 'https://enterprise.tech/data-management',
-        snippet: 'Effective data management strategies for enterprise-scale applications...',
-        favicon: '🏢'
+        title: 'Webhook Configuration',
+        url: 'https://docs.interswitchgroup.com/docs/webhooks',
+        snippet: 'Configure webhook endpoints to receive real-time notifications for transaction status updates and settlement events...',
+        favicon: '🔔'
     }
 ];
 
@@ -62,9 +62,9 @@ const simulateStreamingResponse = async (
 };
 
 const mockResponses = [
-    "Based on my analysis of the available knowledge base, I can provide you with a comprehensive overview. Fortress Intelligence leverages advanced natural language processing to understand and contextualize your queries, ensuring accurate and relevant responses.\n\nThe system utilizes semantic search capabilities to identify the most pertinent information across your connected data sources, providing citations and references for transparency and verification.",
-    "I've found several relevant sources that address your question. The knowledge graph indicates strong connections between the concepts you've mentioned.\n\nHere's what the analysis reveals: The integration of AI-powered search with enterprise knowledge management enables organizations to unlock valuable insights that were previously difficult to access. This approach combines the precision of structured databases with the flexibility of natural language understanding.",
-    "Excellent question! Let me break this down for you based on the indexed knowledge.\n\nFirst, it's important to understand that modern AI knowledge systems operate on multiple layers: semantic understanding, contextual relevance, and source verification. Each layer contributes to the overall accuracy and usefulness of the responses you receive.\n\nThe system continuously learns from user interactions to improve response quality over time.",
+    "Based on the Interswitch API documentation, here's how authentication works:\n\nInterswitch uses **HMAC-SHA512** for request signing. You'll need to concatenate the HTTP method, URL, timestamp, nonce, and your client ID, then sign this string with your client secret.\n\nThe resulting signature goes into the `Authorization` header along with your client ID and the timestamp used in signing.",
+    "Great question about the payment flow! Here's the QuickTeller integration process:\n\n**Step 1:** Initiate a payment request with the transaction amount, currency, and customer details.\n**Step 2:** Redirect the customer to the Interswitch payment page or use the inline checkout.\n**Step 3:** Interswitch processes the payment and sends a webhook notification.\n**Step 4:** Verify the transaction status using the Requery API endpoint.",
+    "For webhook configuration with Interswitch, here's what you need to know:\n\nFirst, register your webhook URL in the Interswitch developer console. When a transaction event occurs, Interswitch sends a POST request to your endpoint with transaction details.\n\nAlways verify the webhook signature using your client secret before processing. This prevents spoofed notifications from being accepted by your system.",
 ];
 
 export function useChat() {
@@ -73,21 +73,21 @@ export function useChat() {
     const [conversations, setConversations] = useState<Conversation[]>([
         {
             id: '1',
-            title: 'Getting Started with Fortress',
+            title: 'Interswitch Auth Setup',
             messages: [],
             createdAt: new Date(Date.now() - 86400000),
             updatedAt: new Date(Date.now() - 86400000),
         },
         {
             id: '2',
-            title: 'Data Integration Questions',
+            title: 'Payment API Integration',
             messages: [],
             createdAt: new Date(Date.now() - 172800000),
             updatedAt: new Date(Date.now() - 172800000),
         },
         {
             id: '3',
-            title: 'API Documentation Review',
+            title: 'Webhook Configuration',
             messages: [],
             createdAt: new Date(Date.now() - 259200000),
             updatedAt: new Date(Date.now() - 259200000),

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Brain, Zap, Shield, MessageSquare, Search, CheckCircle, ArrowRight, Moon, Sun, Sparkles } from 'lucide-react';
+import { Lock, Zap, Shield, ArrowRight, Moon, Sun, Sparkles, Code2, Webhook, CreditCard, Terminal, BookOpen, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/Logo';
 import { useTheme } from '@/hooks/useTheme';
@@ -50,34 +50,145 @@ function AnimatedSection({ children, className, delay = 0 }: { children: React.R
     );
 }
 
-// Feature card component
-function FeatureCard({ icon: Icon, title, description, delay }: { icon: React.ElementType; title: string; description: string; delay: number }) {
+// Animated code terminal that showcases Interswitch API
+function APITerminal() {
+    const codeLines = [
+        { type: 'comment', text: '// Authenticate with Interswitch API' },
+        { type: 'keyword', text: 'const' },
+        { type: 'code', text: ' response = ' },
+        { type: 'keyword', text: 'await' },
+        { type: 'func', text: ' fetch' },
+        { type: 'code', text: '(' },
+        { type: 'string', text: "'https://api.interswitchng.com/passport/oauth/token'" },
+        { type: 'code', text: ', {' },
+        { type: 'indent', text: '' },
+        { type: 'key', text: '  method' },
+        { type: 'code', text: ': ' },
+        { type: 'string', text: "'POST'" },
+        { type: 'code', text: ',' },
+        { type: 'key', text: '  headers' },
+        { type: 'code', text: ': {' },
+        { type: 'key', text: "    'Content-Type'" },
+        { type: 'code', text: ': ' },
+        { type: 'string', text: "'application/x-www-form-urlencoded'" },
+        { type: 'code', text: ',' },
+        { type: 'key', text: "    'Authorization'" },
+        { type: 'code', text: ': ' },
+        { type: 'func', text: 'getAuthHeader' },
+        { type: 'code', text: '()' },
+        { type: 'code', text: '  }' },
+        { type: 'code', text: '});' },
+    ];
+
+    return (
+        <div className="code-terminal animate-glow-pulse">
+            {/* Terminal header */}
+            <div className="flex items-center gap-2 px-4 py-3 border-b border-white/10">
+                <div className="flex gap-1.5">
+                    <div className="w-3 h-3 rounded-full bg-red-500/80" />
+                    <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+                    <div className="w-3 h-3 rounded-full bg-green-500/80" />
+                </div>
+                <span className="text-white/40 text-xs font-mono ml-2">interswitch-api.ts</span>
+            </div>
+            {/* Code content */}
+            <div className="p-5 font-mono text-sm leading-relaxed overflow-hidden">
+                <div className="text-white/30 text-xs mb-3">{'>'} Interswitch Payment Integration</div>
+                {/* Line 1: Comment */}
+                <div className="text-emerald-400/70">{codeLines[0].text}</div>
+                {/* Line 2: const response = await fetch(...) */}
+                <div className="mt-1">
+                    <span className="text-purple-400">const</span>
+                    <span className="text-white/80"> response = </span>
+                    <span className="text-purple-400">await</span>
+                    <span className="text-yellow-300"> fetch</span>
+                    <span className="text-white/60">(</span>
+                </div>
+                <div className="pl-4">
+                    <span className="text-green-400">'https://api.interswitchng.com/...'</span>
+                    <span className="text-white/60">, {'{'}</span>
+                </div>
+                <div className="pl-6">
+                    <span className="text-cyan-300">method</span>
+                    <span className="text-white/60">: </span>
+                    <span className="text-green-400">'POST'</span>
+                    <span className="text-white/60">,</span>
+                </div>
+                <div className="pl-6">
+                    <span className="text-cyan-300">headers</span>
+                    <span className="text-white/60">: {'{'}</span>
+                </div>
+                <div className="pl-8">
+                    <span className="text-cyan-300">'Authorization'</span>
+                    <span className="text-white/60">: </span>
+                    <span className="text-yellow-300">getHMACAuth</span>
+                    <span className="text-white/60">()</span>
+                </div>
+                <div className="pl-6 text-white/60">{'}'}</div>
+                <div className="pl-2 text-white/60">{'})'}</div>
+                {/* Cursor blink */}
+                <div className="mt-3 flex items-center gap-1">
+                    <span className="text-white/30">{'>'}</span>
+                    <div className="w-2 h-4 bg-purple-400/80 animate-typing rounded-sm" />
+                </div>
+            </div>
+        </div>
+    );
+}
+
+// Bento feature card
+function BentoCard({ icon: Icon, emoji, title, description, accent, delay }: {
+    icon: React.ElementType;
+    emoji: string;
+    title: string;
+    description: string;
+    accent?: string;
+    delay: number;
+}) {
     return (
         <AnimatedSection delay={delay}>
-            <div className="group relative h-full rounded-2xl p-8 glass-card hover:shadow-glow transition-all duration-500 hover:-translate-y-2">
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-brand-green/10 to-brand-navy/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="group bento-card p-8 h-full relative overflow-hidden">
+                {/* Subtle gradient on hover */}
+                <div className="absolute inset-0 rounded-[1.5rem] bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
                 <div className="relative">
-                    <div className="mb-6 inline-flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-br from-primary to-brand-navy text-primary-foreground shadow-glow">
-                        <Icon className="w-7 h-7" />
+                    {/* Icon badge */}
+                    <div className={cn(
+                        'inline-flex items-center justify-center w-14 h-14 rounded-2xl mb-6',
+                        'shadow-soft transition-transform duration-300 group-hover:scale-110',
+                        accent || 'bg-accent'
+                    )}>
+                        <span className="text-2xl">{emoji}</span>
                     </div>
-                    <h3 className="text-xl font-semibold text-foreground mb-3">{title}</h3>
-                    <p className="text-muted-foreground leading-relaxed">{description}</p>
+
+                    <h3 className="text-xl font-semibold text-foreground mb-3 group-hover:text-primary transition-colors">
+                        {title}
+                    </h3>
+                    <p className="text-muted-foreground leading-relaxed text-[15px]">
+                        {description}
+                    </p>
                 </div>
             </div>
         </AnimatedSection>
     );
 }
 
-// Step component
-function StepCard({ number, icon: Icon, title, description, delay }: { number: number; icon: React.ElementType; title: string; description: string; delay: number }) {
+// Step card for "How it works"
+function StepCard({ number, icon: Icon, title, description, delay }: {
+    number: number;
+    icon: React.ElementType;
+    title: string;
+    description: string;
+    delay: number;
+}) {
     return (
         <AnimatedSection delay={delay} className="relative">
             <div className="flex flex-col items-center text-center">
                 <div className="relative mb-6">
-                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-brand-purple-dark to-brand-navy flex items-center justify-center shadow-elevated">
-                        <Icon className="w-9 h-9 text-white" />
+                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary/20 to-accent flex items-center justify-center shadow-soft">
+                        <Icon className="w-9 h-9 text-primary" />
                     </div>
-                    <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-brand-green flex items-center justify-center text-brand-purple-dark font-bold text-sm shadow-soft">
+                    <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-isw-red flex items-center justify-center text-white font-bold text-sm shadow-soft">
                         {number}
                     </div>
                 </div>
@@ -88,61 +199,55 @@ function StepCard({ number, icon: Icon, title, description, delay }: { number: n
     );
 }
 
-// AI Mascot Component with floating badges
-function AIMascot() {
+// Sample chat preview for demo section
+function ChatPreview() {
     return (
-        <div className="relative w-[400px] h-[400px] lg:w-[500px] lg:h-[500px] mx-auto">
-            {/* Glow effect behind mascot */}
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/40 via-brand-green/30 to-brand-navy/40 rounded-full blur-3xl animate-pulse scale-110" />
+        <div className="bento-card overflow-hidden">
+            {/* Chat header */}
+            <div className="px-6 py-4 border-b border-border/60 flex items-center gap-3">
+                <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary to-brand-purple flex items-center justify-center">
+                    <Sparkles className="w-4 h-4 text-white" />
+                </div>
+                <div>
+                    <div className="text-sm font-semibold text-foreground">Fortress Copilot</div>
+                    <div className="text-xs text-muted-foreground flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
+                        Online
+                    </div>
+                </div>
+            </div>
 
-            {/* Main mascot container */}
-            <div className="relative w-full h-full animate-float flex items-center justify-center">
-                {/* Mascot Image - Large closeup */}
-                <img
-                    src="/src/assets/ai-mascot.png"
-                    alt="AI Mascot"
-                    className="w-full h-full object-contain drop-shadow-2xl"
-                />
-
-                {/* Floating badge - Brain/AI */}
-                <div
-                    className="absolute -top-2 -right-4 animate-float"
-                    style={{ animationDelay: '-1s' }}
-                >
-                    <div className="flex items-center gap-2 px-3 py-2 rounded-full bg-primary/90 text-primary-foreground shadow-glow text-xs font-medium">
-                        <Brain className="w-3 h-3" />
-                        <span>RAG Based</span>
+            {/* Chat messages */}
+            <div className="p-6 space-y-4">
+                {/* User message */}
+                <div className="flex justify-end">
+                    <div className="bg-primary text-primary-foreground px-4 py-2.5 rounded-2xl rounded-tr-md max-w-[80%] text-sm">
+                        How do I authenticate with the Interswitch Payment API?
                     </div>
                 </div>
 
-                {/* Floating badge - Fast */}
-                <div
-                    className="absolute top-1/4 -left-8 animate-float"
-                    style={{ animationDelay: '-2s' }}
-                >
-                    <div className="flex items-center gap-2 px-3 py-2 rounded-full bg-brand-green/90 text-brand-purple-dark shadow-soft text-xs font-medium">
-                        <Zap className="w-3 h-3" />
-                        <span>Instant</span>
+                {/* AI response */}
+                <div className="flex gap-3">
+                    <div className="w-7 h-7 rounded-lg bg-accent flex items-center justify-center flex-shrink-0 mt-1">
+                        <Sparkles className="w-3.5 h-3.5 text-primary" />
                     </div>
-                </div>
-
-                {/* Floating badge - Secure */}
-                <div
-                    className="absolute bottom-4 -right-6 animate-float"
-                    style={{ animationDelay: '-3s' }}
-                >
-                    <div className="flex items-center gap-2 px-3 py-2 rounded-full bg-brand-navy/90 text-white shadow-soft text-xs font-medium">
-                        <Shield className="w-3 h-3" />
-                        <span>Trusted</span>
+                    <div className="bg-card border border-border/60 px-4 py-3 rounded-2xl rounded-tl-md text-sm text-foreground leading-relaxed max-w-[85%]">
+                        <p>To authenticate with Interswitch APIs, you'll need to use <strong className="text-primary">HMAC-SHA512 signing</strong>. Here's the process:</p>
+                        <ol className="mt-2 space-y-1 text-muted-foreground text-xs">
+                            <li>1. Concatenate your <code className="px-1 py-0.5 rounded bg-muted text-[11px] font-mono">HTTP method + URL + timestamp</code></li>
+                            <li>2. Sign with your client secret using HMAC-SHA512</li>
+                            <li>3. Include the signature in the Authorization header</li>
+                        </ol>
+                        {/* Sources */}
+                        <div className="mt-3 flex gap-2">
+                            <span className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-accent/80 text-[11px] font-medium text-accent-foreground">
+                                📄 authentication.md
+                            </span>
+                            <span className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-isw-red-light text-[11px] font-medium isw-accent">
+                                📄 security.md
+                            </span>
+                        </div>
                     </div>
-                </div>
-
-                {/* Floating sparkles */}
-                <div className="absolute top-0 left-8 animate-float" style={{ animationDelay: '-0.5s' }}>
-                    <Sparkles className="w-5 h-5 text-primary/60" />
-                </div>
-                <div className="absolute bottom-8 left-0 animate-float" style={{ animationDelay: '-2.5s' }}>
-                    <Sparkles className="w-4 h-4 text-brand-green/60" />
                 </div>
             </div>
         </div>
@@ -155,37 +260,50 @@ export default function LandingPage() {
 
     const features = [
         {
-            icon: Brain,
-            title: 'Intelligent Answers',
-            description: 'AI-powered responses grounded in your documentation, delivering accurate and contextual information every time.',
+            icon: Lock,
+            emoji: '🔐',
+            title: 'Authentication & Tokens',
+            description: 'Master OAuth 2.0 flows, InterswitchAuth signature generation, Base64 encoding, and access token management across all Interswitch services.',
+            accent: 'bg-purple-100 dark:bg-purple-900/30',
         },
         {
-            icon: Zap,
-            title: 'Instant Access',
-            description: 'Find information in seconds, not hours. Our intelligent search cuts through complexity to get you answers fast.',
+            icon: Code2,
+            emoji: '⚡',
+            title: 'API Overview & Payments',
+            description: 'Get started fast with RESTful endpoints and payment APIs. We solve integration pain points for individuals and businesses alike',
+            accent: 'bg-blue-100 dark:bg-blue-900/30',
         },
         {
             icon: Shield,
-            title: 'Knowledge Base Trained',
-            description: 'Answers sourced exclusively from verified internal documentation, ensuring reliability and trust.',
+            emoji: '📊',
+            title: 'Transactions & Error Codes',
+            description: 'Understand response codes, transaction statuses, requery flows, 3D Secure handling, and how to debug failed API calls.',
+            accent: 'bg-amber-100 dark:bg-amber-900/30',
+        },
+        {
+            icon: Webhook,
+            emoji: '🔔',
+            title: 'Webhooks & Notifications',
+            description: 'Configure real-time event callbacks, verify signatures, handle retries, and automate workflows triggered by transaction events.',
+            accent: 'bg-emerald-100 dark:bg-emerald-900/30',
         },
     ];
 
     const steps = [
         {
-            icon: MessageSquare,
-            title: 'Ask your question',
-            description: 'Type your query naturally, just like asking a colleague.',
+            icon: Terminal,
+            title: 'Ask about any Interswitch API',
+            description: 'Type your question naturally — authentication, payments, webhooks, or anything else.',
         },
         {
-            icon: Search,
-            title: 'AI searches knowledge',
-            description: 'Our AI instantly scans your entire knowledge base.',
+            icon: BookOpen,
+            title: 'AI searches the documentation',
+            description: 'Our RAG engine retrieves the most relevant sections from Interswitch\'s official API docs.',
         },
         {
-            icon: CheckCircle,
-            title: 'Get accurate answers',
-            description: 'Receive clear, cited responses you can trust.',
+            icon: Zap,
+            title: 'Get accurate, cited answers',
+            description: 'Receive clear responses with source citations — verify every answer against the docs.',
         },
     ];
 
@@ -195,7 +313,7 @@ export default function LandingPage() {
             <nav className="fixed top-0 left-0 right-0 z-50 glass border-b border-border/50">
                 <div className="max-w-7xl mx-auto px-6 py-4">
                     <div className="flex items-center justify-between">
-                        <Logo size="xl" />
+                        <Logo size="xl" showInterswitch />
                         <div className="flex items-center gap-4">
                             <Button
                                 variant="ghost"
@@ -210,7 +328,7 @@ export default function LandingPage() {
                                 onClick={() => navigate('/chat')}
                                 className="rounded-full px-6"
                             >
-                                Start Asking
+                                Try the Copilot
                                 <ArrowRight className="w-4 h-4 ml-2" />
                             </Button>
                         </div>
@@ -218,44 +336,52 @@ export default function LandingPage() {
                 </div>
             </nav>
 
-            {/* Hero Section */}
+            {/* ══════════════════════════════════════════
+                HERO SECTION
+               ══════════════════════════════════════════ */}
             <section className="relative min-h-screen flex items-center justify-center pt-20">
-                {/* Gradient Background */}
+                {/* Lavender gradient background — Buildathon inspired */}
                 <div
-                    className="absolute inset-0 opacity-40 dark:opacity-60"
+                    className="absolute inset-0"
                     style={{ background: 'var(--gradient-hero)' }}
                 />
 
-                {/* Floating orbs */}
-                <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-brand-green/20 rounded-full blur-3xl animate-float" />
-                <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-brand-navy/30 rounded-full blur-3xl animate-float" style={{ animationDelay: '-3s' }} />
-                <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-primary/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '-1.5s' }} />
+                {/* Floating decorative orbs */}
+                <div className="absolute top-1/3 left-[15%] w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-float" />
+                <div className="absolute bottom-1/4 right-[10%] w-96 h-96 bg-isw-red/5 rounded-full blur-3xl animate-float" style={{ animationDelay: '-3s' }} />
+                <div className="absolute top-1/2 right-[35%] w-48 h-48 bg-brand-lavender/40 rounded-full blur-3xl animate-float" style={{ animationDelay: '-1.5s' }} />
 
                 <div className="relative z-10 max-w-7xl mx-auto px-6">
-                    <div className="grid lg:grid-cols-2 gap-12 items-center">
-                        {/* Left side - Text content */}
+                    <div className="grid lg:grid-cols-2 gap-16 items-center">
+                        {/* Left — Hero text */}
                         <div className="text-center lg:text-left">
                             <AnimatedSection delay={100}>
-                                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-8">
-                                    <Sparkles className="w-4 h-4 text-primary" />
-                                    <span className="text-sm font-medium text-primary">Fortress GPT</span>
+                                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-card/80 border border-border/60 shadow-soft mb-8 backdrop-blur-sm">
+                                    <span className="flex items-center gap-1.5 text-sm font-medium text-primary">
+                                        <Sparkles className="w-3.5 h-3.5" />
+                                        POWERED BY RAG
+                                    </span>
+                                    <span className="text-border">|</span>
+                                    <span className="text-sm font-medium isw-accent">
+                                        🏗️ BUILDATHON 2026
+                                    </span>
                                 </div>
                             </AnimatedSection>
 
                             <AnimatedSection delay={200}>
-                                <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6">
-                                    <span className="text-foreground">Your AI-Powered</span>
+                                <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 leading-[1.05]">
+                                    <span className="text-foreground">Your AI</span>
                                     <br />
-                                    <span className="text-gradient">Knowledge</span>
+                                    <span className="text-gradient">Copilot</span>
+                                    <span className="text-foreground"> for</span>
                                     <br />
-                                    <span className="text-foreground">Assistant</span>
+                                    <span className="gradient-isw-text">Interswitch APIs</span>
                                 </h1>
                             </AnimatedSection>
 
                             <AnimatedSection delay={300}>
-                                <p className="text-xl md:text-2xl text-muted-foreground max-w-xl mb-10 leading-relaxed">
-                                    Get instant, accurate answers from your organization's knowledge base.
-                                    No more searching,just ask.
+                                <p className="text-lg md:text-xl text-muted-foreground max-w-xl mb-10 leading-relaxed">
+                                    Navigate Interswitch's API ecosystem with AI. Get instant answers about authentication, token generation, transactions, error codes, web checkout, and more — all powered by intelligent document retrieval.
                                 </p>
                             </AnimatedSection>
 
@@ -267,7 +393,7 @@ export default function LandingPage() {
                                         onClick={() => navigate('/chat')}
                                         className="rounded-full px-10 shadow-glow"
                                     >
-                                        Start Asking
+                                        Try the Copilot
                                         <ArrowRight className="w-5 h-5 ml-2" />
                                     </Button>
                                     <Button
@@ -276,15 +402,42 @@ export default function LandingPage() {
                                         className="rounded-full px-8"
                                         onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}
                                     >
-                                        Learn More
+                                        See How It Works
+                                        <ChevronDown className="w-4 h-4 ml-1" />
                                     </Button>
                                 </div>
                             </AnimatedSection>
                         </div>
 
-                        {/* Right side - AI Mascot */}
-                        <AnimatedSection delay={300} className="hidden lg:block">
-                            <AIMascot />
+                        {/* Right — API Terminal */}
+                        <AnimatedSection delay={400} className="hidden lg:block">
+                            <div className="relative">
+                                {/* Glow behind terminal */}
+                                <div className="absolute -inset-4 bg-gradient-to-br from-primary/20 via-transparent to-isw-red/10 rounded-3xl blur-2xl" />
+                                <div className="relative">
+                                    <APITerminal />
+                                </div>
+
+                                {/* Floating badges around terminal */}
+                                <div className="absolute -top-4 -right-4 animate-float" style={{ animationDelay: '-1s' }}>
+                                    <div className="flex items-center gap-2 px-3 py-2 rounded-full bg-card shadow-elevated border border-border/60 text-xs font-medium">
+                                        <Lock className="w-3 h-3 text-primary" />
+                                        <span className="text-foreground">HMAC-SHA512</span>
+                                    </div>
+                                </div>
+                                <div className="absolute -bottom-3 -left-6 animate-float" style={{ animationDelay: '-2.5s' }}>
+                                    <div className="flex items-center gap-2 px-3 py-2 rounded-full bg-card shadow-elevated border border-border/60 text-xs font-medium">
+                                        <Zap className="w-3 h-3 isw-accent" />
+                                        <span className="text-foreground">Instant Answers</span>
+                                    </div>
+                                </div>
+                                <div className="absolute top-1/2 -left-10 animate-float" style={{ animationDelay: '-4s' }}>
+                                    <div className="flex items-center gap-2 px-3 py-2 rounded-full bg-card shadow-elevated border border-border/60 text-xs font-medium">
+                                        <Code2 className="w-3 h-3 text-emerald-500" />
+                                        <span className="text-foreground">RAG-Powered</span>
+                                    </div>
+                                </div>
+                            </div>
                         </AnimatedSection>
                     </div>
 
@@ -300,43 +453,55 @@ export default function LandingPage() {
                 </div>
             </section>
 
-            {/* Features Section */}
+            {/* ══════════════════════════════════════════
+                FEATURES — BENTO GRID
+               ══════════════════════════════════════════ */}
             <section id="features" className="relative py-32 px-6">
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-muted/50 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-muted/30 to-transparent" />
 
                 <div className="relative max-w-6xl mx-auto">
                     <AnimatedSection className="text-center mb-16">
+                        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-isw-red-light border border-isw-red/20 mb-6">
+                            <span className="text-xs font-semibold isw-accent tracking-wider uppercase">Capabilities</span>
+                        </div>
                         <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-                            Why Choose GPT?
+                            What Can It Do?
                         </h2>
                         <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                            Powerful features designed to transform how you access knowledge
+                            Your AI copilot knows every corner of the Interswitch API documentation
                         </p>
                     </AnimatedSection>
 
-                    <div className="grid md:grid-cols-3 gap-8">
+                    <div className="grid md:grid-cols-2 gap-6">
                         {features.map((feature, index) => (
-                            <FeatureCard
+                            <BentoCard
                                 key={feature.title}
                                 icon={feature.icon}
+                                emoji={feature.emoji}
                                 title={feature.title}
                                 description={feature.description}
-                                delay={index * 150}
+                                accent={feature.accent}
+                                delay={index * 120}
                             />
                         ))}
                     </div>
                 </div>
             </section>
 
-            {/* How It Works Section */}
+            {/* ══════════════════════════════════════════
+                HOW IT WORKS
+               ══════════════════════════════════════════ */}
             <section className="relative py-32 px-6">
                 <div className="max-w-5xl mx-auto">
                     <AnimatedSection className="text-center mb-20">
+                        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent border border-primary/15 mb-6">
+                            <span className="text-xs font-semibold text-primary tracking-wider uppercase">Simple Process</span>
+                        </div>
                         <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
                             How It Works
                         </h2>
                         <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                            Three simple steps to get the answers you need
+                            Three steps between you and the answer you need
                         </p>
                     </AnimatedSection>
 
@@ -360,7 +525,39 @@ export default function LandingPage() {
                 </div>
             </section>
 
-            {/* CTA Section */}
+            {/* ══════════════════════════════════════════
+                LIVE DEMO PREVIEW
+               ══════════════════════════════════════════ */}
+            <section className="relative py-32 px-6">
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-muted/20 to-transparent" />
+
+                <div className="relative max-w-4xl mx-auto">
+                    <AnimatedSection className="text-center mb-12">
+                        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent border border-primary/15 mb-6">
+                            <span className="text-xs font-semibold text-primary tracking-wider uppercase">Preview</span>
+                        </div>
+                        <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+                            See It in Action
+                        </h2>
+                        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+                            A glimpse of what your Interswitch integration experience looks like
+                        </p>
+                    </AnimatedSection>
+
+                    <AnimatedSection delay={200}>
+                        <div className="relative">
+                            <div className="absolute -inset-4 bg-gradient-to-br from-primary/10 via-transparent to-isw-red/5 rounded-[2rem] blur-xl" />
+                            <div className="relative">
+                                <ChatPreview />
+                            </div>
+                        </div>
+                    </AnimatedSection>
+                </div>
+            </section>
+
+            {/* ══════════════════════════════════════════
+                CTA SECTION
+               ══════════════════════════════════════════ */}
             <section className="relative py-32 px-6">
                 <div
                     className="absolute inset-0 opacity-30"
@@ -368,12 +565,12 @@ export default function LandingPage() {
                 />
 
                 <AnimatedSection className="relative max-w-4xl mx-auto text-center">
-                    <div className="glass-card rounded-3xl p-12 md:p-16">
+                    <div className="bento-card p-12 md:p-16">
                         <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-                            Ready to Get Started?
+                            Ready to Build with <span className="isw-accent">Interswitch</span>?
                         </h2>
                         <p className="text-xl text-muted-foreground mb-10 max-w-xl mx-auto">
-                            Transform how you access knowledge. Start asking questions and get instant, accurate answers.
+                            Stop searching through docs manually. Ask your AI Copilot and get instant, cited answers about any Interswitch API.
                         </p>
                         <Button
                             variant="gradient"
@@ -381,7 +578,7 @@ export default function LandingPage() {
                             onClick={() => navigate('/chat')}
                             className="rounded-full px-12 shadow-glow"
                         >
-                            Start Asking Now
+                            Launch the Copilot
                             <ArrowRight className="w-5 h-5 ml-2" />
                         </Button>
                     </div>
@@ -391,9 +588,9 @@ export default function LandingPage() {
             {/* Footer */}
             <footer className="border-t border-border py-12 px-6">
                 <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-                    <Logo size="sm" />
-                    <p className="text-muted-foreground text-sm">
-                        © {new Date().getFullYear()} Intelligence. All rights reserved.
+                    <Logo size="sm" showInterswitch />
+                    <p className="text-muted-foreground text-sm text-center md:text-right">
+                        Built for <span className="font-semibold isw-accent">Interswitch Buildathon 2026</span> by Team Fortress
                     </p>
                 </div>
             </footer>

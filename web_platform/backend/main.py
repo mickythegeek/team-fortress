@@ -21,8 +21,8 @@ app = FastAPI(title="Intelligence API")
 # CORS middleware for frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:8780", "http://localhost:5173", "http://localhost:3000"],
-    allow_credentials=True,
+    allow_origins=["*"],  # Allow all origins for the MVP
+    allow_credentials=False, # Must be false if origins is *
     allow_methods=["*"],
     allow_headers=["*"],
 )

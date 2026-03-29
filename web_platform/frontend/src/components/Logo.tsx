@@ -4,9 +4,10 @@ interface LogoProps {
     className?: string;
     showText?: boolean;
     size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+    showInterswitch?: boolean;
 }
 
-export function Logo({ className, showText = true, size = 'md' }: LogoProps) {
+export function Logo({ className, showText = true, size = 'md', showInterswitch = false }: LogoProps) {
     const sizeClasses = {
         sm: 'h-6 w-6',
         md: 'h-8 w-8',
@@ -16,11 +17,11 @@ export function Logo({ className, showText = true, size = 'md' }: LogoProps) {
     };
 
     const textSizeClasses = {
-        sm: 'text-lg',
-        md: 'text-xl',
-        lg: 'text-2xl',
-        xl: 'text-3xl',
-        '2xl': 'text-4xl',
+        sm: 'text-base',
+        md: 'text-lg',
+        lg: 'text-xl',
+        xl: 'text-2xl',
+        '2xl': 'text-3xl',
     };
 
     return (
@@ -35,7 +36,27 @@ export function Logo({ className, showText = true, size = 'md' }: LogoProps) {
                     className="h-full w-full object-contain"
                 />
             </div>
-
+            {showText && (
+                <div className="flex items-center gap-2">
+                    <span className={cn(
+                        'font-bold tracking-tight text-foreground',
+                        textSizeClasses[size]
+                    )}>
+                        Fortress
+                    </span>
+                    {showInterswitch && (
+                        <>
+                            <span className="text-muted-foreground/40 font-light">|</span>
+                            <span className={cn(
+                                'font-semibold tracking-tight isw-accent',
+                                size === 'sm' ? 'text-xs' : 'text-sm'
+                            )}>
+                                Interswitch
+                            </span>
+                        </>
+                    )}
+                </div>
+            )}
         </div>
     );
 }

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,36 +6,36 @@
 
 @layer base {
   :root {
-    /* Core palette - Professional teal/blue */
-    --background: 210 20% 98%;
-    --foreground: 215 25% 12%;
+    /* Core palette - Soft professional with Interswitch accent */
+    --background: 240 20% 98%;
+    --foreground: 230 25% 10%;
 
     --card: 0 0% 100%;
-    --card-foreground: 215 25% 12%;
+    --card-foreground: 230 25% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 215 25% 12%;
+    --popover-foreground: 230 25% 10%;
 
-    /* Primary - Teal accent */
-    --primary: 186 72% 38%;
+    /* Primary - Soft violet/lavender (Buildathon-inspired) */
+    --primary: 260 60% 55%;
     --primary-foreground: 0 0% 100%;
 
-    /* Secondary - Soft blue-gray */
-    --secondary: 210 25% 93%;
-    --secondary-foreground: 215 25% 20%;
+    /* Secondary */
+    --secondary: 240 20% 94%;
+    --secondary-foreground: 230 25% 18%;
 
-    --muted: 210 20% 95%;
-    --muted-foreground: 215 15% 45%;
+    --muted: 240 15% 95%;
+    --muted-foreground: 230 12% 50%;
 
-    --accent: 186 60% 94%;
-    --accent-foreground: 186 72% 30%;
+    --accent: 260 50% 94%;
+    --accent-foreground: 260 60% 45%;
 
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 210 20% 90%;
-    --input: 210 20% 90%;
-    --ring: 186 72% 38%;
+    --border: 240 15% 91%;
+    --input: 240 15% 91%;
+    --ring: 260 60% 55%;
 
     --radius: 0.75rem;
 
@@ -46,101 +46,113 @@
     --warning: 38 92% 50%;
     --warning-foreground: 0 0% 100%;
 
+    /* Interswitch brand accent */
+    --isw-red: 4 80% 52%;
+    --isw-red-light: 4 80% 95%;
+
     /* Chat specific */
-    --chat-user: 210 25% 96%;
+    --chat-user: 240 20% 96%;
     --chat-assistant: 0 0% 100%;
-    --chat-border: 210 20% 92%;
+    --chat-border: 240 15% 92%;
 
     /* Sidebar */
-    --sidebar-background: 210 25% 97%;
-    --sidebar-foreground: 215 25% 25%;
-    --sidebar-primary: 186 72% 38%;
+    --sidebar-background: 240 20% 97%;
+    --sidebar-foreground: 230 20% 30%;
+    --sidebar-primary: 260 60% 55%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 186 60% 94%;
-    --sidebar-accent-foreground: 186 72% 30%;
-    --sidebar-border: 210 20% 90%;
-    --sidebar-ring: 186 72% 38%;
+    --sidebar-accent: 260 50% 94%;
+    --sidebar-accent-foreground: 260 60% 45%;
+    --sidebar-border: 240 15% 91%;
+    --sidebar-ring: 260 60% 55%;
 
     /* Source citation */
-    --citation: 220 70% 50%;
+    --citation: 260 70% 55%;
     --citation-foreground: 0 0% 100%;
 
     /* Gradient tokens */
-    --gradient-primary: linear-gradient(135deg, hsl(186 72% 38%), hsl(200 80% 45%));
-    --gradient-surface: linear-gradient(180deg, hsl(210 20% 98%), hsl(210 25% 96%));
+    --gradient-primary: linear-gradient(135deg, hsl(260 60% 55%), hsl(280 70% 60%));
+    --gradient-surface: linear-gradient(180deg, hsl(240 20% 98%), hsl(240 20% 96%));
 
     /* Brand colors */
-    --brand-green: 135 53% 70%;
-    --brand-cream: 63 18% 90%;
-    --brand-purple-dark: 252 34% 22%;
-    --brand-purple: 252 33% 21%;
-    --brand-navy: 215 55% 31%;
+    --brand-green: 158 55% 55%;
+    --brand-cream: 50 30% 95%;
+    --brand-purple-dark: 260 45% 20%;
+    --brand-purple: 260 60% 55%;
+    --brand-navy: 230 50% 30%;
+    --brand-lavender: 260 60% 90%;
 
-    /* Landing gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(252 34% 22%) 0%, hsl(215 55% 31%) 50%, hsl(135 53% 70% / 0.3) 100%);
-    --gradient-hero-light: linear-gradient(135deg, hsl(63 18% 90%) 0%, hsl(210 20% 98%) 50%, hsl(135 53% 70% / 0.2) 100%);
+    /* Landing gradients - Buildathon inspired lavender */
+    --gradient-hero: linear-gradient(180deg, hsl(260 60% 88%) 0%, hsl(240 20% 98%) 50%, hsl(0 0% 100%) 100%);
+    --gradient-hero-light: linear-gradient(180deg, hsl(260 50% 92%) 0%, hsl(240 20% 98%) 60%, hsl(0 0% 100%) 100%);
+    --gradient-isw: linear-gradient(135deg, hsl(260 60% 55%), hsl(4 80% 52%));
   }
 
   .dark {
-    --background: 230 35% 5%;
-    --foreground: 210 20% 98%;
+    --background: 230 30% 6%;
+    --foreground: 210 20% 96%;
 
-    --card: 232 30% 8%;
-    --card-foreground: 210 20% 98%;
+    --card: 232 28% 9%;
+    --card-foreground: 210 20% 96%;
 
-    --popover: 232 30% 8%;
-    --popover-foreground: 210 20% 98%;
+    --popover: 232 28% 9%;
+    --popover-foreground: 210 20% 96%;
 
-    --primary: 285 85% 65%;
-    --primary-foreground: 230 35% 5%;
+    --primary: 265 75% 68%;
+    --primary-foreground: 230 30% 6%;
 
-    --secondary: 220 30% 12%;
-    --secondary-foreground: 210 20% 95%;
+    --secondary: 230 25% 13%;
+    --secondary-foreground: 210 20% 92%;
 
-    --muted: 220 30% 12%;
-    --muted-foreground: 215 15% 65%;
+    --muted: 230 25% 13%;
+    --muted-foreground: 220 12% 60%;
 
-    --accent: 310 80% 60%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 270 60% 20%;
+    --accent-foreground: 265 75% 75%;
 
     --destructive: 0 62% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 20% 18%;
-    --input: 220 20% 18%;
-    --ring: 285 85% 65%;
+    --border: 230 18% 16%;
+    --input: 230 18% 16%;
+    --ring: 265 75% 68%;
 
     --success: 158 64% 45%;
     --warning: 38 92% 55%;
 
-    --chat-user: 232 35% 12%;
-    --chat-assistant: 230 35% 5%;
-    --chat-border: 220 20% 16%;
+    /* Interswitch accent dark */
+    --isw-red: 4 75% 58%;
+    --isw-red-light: 4 60% 15%;
 
-    --sidebar-background: 230 35% 4%;
-    --sidebar-foreground: 210 20% 85%;
-    --sidebar-primary: 285 85% 65%;
-    --sidebar-primary-foreground: 230 35% 5%;
-    --sidebar-accent: 310 80% 60%;
-    --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 220 20% 10%;
-    --sidebar-ring: 285 85% 65%;
+    --chat-user: 232 30% 13%;
+    --chat-assistant: 230 30% 6%;
+    --chat-border: 230 18% 15%;
 
-    --citation: 220 80% 65%;
+    --sidebar-background: 230 32% 5%;
+    --sidebar-foreground: 210 18% 82%;
+    --sidebar-primary: 265 75% 68%;
+    --sidebar-primary-foreground: 230 30% 6%;
+    --sidebar-accent: 270 60% 20%;
+    --sidebar-accent-foreground: 265 75% 75%;
+    --sidebar-border: 230 18% 10%;
+    --sidebar-ring: 265 75% 68%;
 
-    --gradient-primary: linear-gradient(135deg, hsl(285 85% 65%), hsl(310 80% 60%));
-    --gradient-surface: linear-gradient(180deg, hsl(230 35% 5%), hsl(232 40% 6%));
+    --citation: 265 80% 70%;
 
-    /* Brand colors */
-    --brand-green: 158 64% 45%;
-    --brand-cream: 63 18% 85%;
-    --brand-purple-dark: 285 50% 12%;
-    --brand-purple: 285 85% 65%;
-    --brand-navy: 220 40% 25%;
+    --gradient-primary: linear-gradient(135deg, hsl(265 75% 68%), hsl(290 70% 55%));
+    --gradient-surface: linear-gradient(180deg, hsl(230 30% 6%), hsl(232 32% 7%));
 
-    /* Landing gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(285 50% 12%) 0%, hsl(220 40% 15%) 50%, hsl(310 80% 60% / 0.2) 100%);
-    --gradient-hero-light: linear-gradient(135deg, hsl(230 35% 10%) 0%, hsl(220 30% 12%) 50%, hsl(310 80% 60% / 0.2) 100%);
+    /* Brand colors dark */
+    --brand-green: 158 60% 50%;
+    --brand-cream: 50 20% 80%;
+    --brand-purple-dark: 265 40% 14%;
+    --brand-purple: 265 75% 68%;
+    --brand-navy: 230 35% 22%;
+    --brand-lavender: 265 40% 18%;
+
+    /* Landing gradients dark */
+    --gradient-hero: linear-gradient(180deg, hsl(265 40% 12%) 0%, hsl(230 30% 6%) 60%, hsl(230 30% 6%) 100%);
+    --gradient-hero-light: linear-gradient(180deg, hsl(265 35% 10%) 0%, hsl(230 30% 6%) 60%, hsl(230 30% 6%) 100%);
+    --gradient-isw: linear-gradient(135deg, hsl(265 75% 68%), hsl(4 75% 58%));
   }
 }
 
@@ -189,6 +201,18 @@
     animation: scrollFade 0.6s ease-out forwards;
   }
 
+  .animate-glow-pulse {
+    animation: glowPulse 3s ease-in-out infinite;
+  }
+
+  .animate-shimmer {
+    animation: shimmer 2s linear infinite;
+  }
+
+  .animate-code-scroll {
+    animation: codeScroll 20s linear infinite;
+  }
+
   /* Glass effect */
   .glass {
     @apply bg-background/80 backdrop-blur-md;
@@ -200,6 +224,42 @@
 
   .glass-card-dark {
     @apply bg-white/5 backdrop-blur-xl border border-white/10;
+  }
+
+  /* Bento card - Buildathon inspired */
+  .bento-card {
+    @apply bg-card border border-border/60 shadow-soft;
+    border-radius: 1.5rem;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .bento-card:hover {
+    @apply shadow-elevated;
+    transform: translateY(-4px);
+  }
+
+  /* Interswitch accent utilities */
+  .isw-accent {
+    color: hsl(var(--isw-red));
+  }
+
+  .bg-isw-accent {
+    background-color: hsl(var(--isw-red));
+  }
+
+  .bg-isw-accent-light {
+    background-color: hsl(var(--isw-red-light));
+  }
+
+  .border-isw {
+    border-color: hsl(var(--isw-red) / 0.3);
+  }
+
+  .gradient-isw-text {
+    background: var(--gradient-isw);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   /* Text gradient */
@@ -222,6 +282,13 @@
 
   .scrollbar-thin::-webkit-scrollbar-thumb {
     @apply bg-border rounded-full hover:bg-muted-foreground/30 transition-colors;
+  }
+
+  /* Code terminal styling */
+  .code-terminal {
+    @apply bg-[hsl(230,30%,8%)] rounded-2xl overflow-hidden;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4),
+                0 0 40px -8px hsl(260 60% 55% / 0.15);
   }
 }
 
@@ -304,5 +371,37 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes glowPulse {
+
+  0%,
+  100% {
+    box-shadow: 0 0 20px -4px hsl(260 60% 55% / 0.2),
+                0 0 40px -8px hsl(260 60% 55% / 0.1);
+  }
+
+  50% {
+    box-shadow: 0 0 30px -4px hsl(260 60% 55% / 0.35),
+                0 0 60px -8px hsl(260 60% 55% / 0.2);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes codeScroll {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
   }
 }

@@ -46,11 +46,11 @@ export function Header({
 
                 {/* Breadcrumb / Context */}
                 <div className="hidden sm:flex items-center gap-2 text-sm text-muted-foreground">
-                    <span className="px-2 py-1 rounded-md bg-accent/50 text-accent-foreground font-medium">
-                        Pro Plan
+                    <span className="px-2 py-1 rounded-md bg-isw-red-light text-isw-red font-medium text-xs">
+                        Interswitch Copilot
                     </span>
                     <span>•</span>
-                    <span>3,247 queries remaining</span>
+                    <span>Powered by RAG</span>
                 </div>
             </div>
 
@@ -94,7 +94,7 @@ export function Header({
 
                 {/* User avatar */}
                 <Button variant="ghost" size="icon-sm" className="ml-2">
-                    <div className="h-7 w-7 rounded-full bg-gradient-to-br from-primary to-[hsl(200,80%,45%)] flex items-center justify-center text-xs font-semibold text-primary-foreground">
+                    <div className="h-7 w-7 rounded-full bg-gradient-to-br from-primary to-[hsl(280,70%,60%)] flex items-center justify-center text-xs font-semibold text-primary-foreground">
                         JD
                     </div>
                 </Button>

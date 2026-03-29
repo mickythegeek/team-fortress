@@ -1,4 +1,5 @@
 import json
+import shutil
 from pathlib import Path
 from sentence_transformers import SentenceTransformer
 import chromadb
@@ -32,13 +33,16 @@ def main():
     print(f"📥 Loading embedding model: {MODEL_NAME}")
     model = SentenceTransformer(MODEL_NAME)
     
-    # Initialize ChromaDB
+    # Initialize ChromaDB — clear old data first
     vectorstore_path = Path("../ai-support-assistant/data/vectorstore")
+    if vectorstore_path.exists():
+        print(f"🧹 Clearing old vectorstore at {vectorstore_path}")
+        shutil.rmtree(vectorstore_path)
     vectorstore_path.mkdir(parents=True, exist_ok=True)
     
     client = chromadb.PersistentClient(path=str(vectorstore_path))
     
-    # Create or get collection
+    # Create fresh collection
     collection = client.get_or_create_collection(
         name="support_knowledge",
         metadata={"hnsw:space": "cosine"}

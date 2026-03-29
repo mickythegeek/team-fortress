@@ -9,7 +9,7 @@ interface ChatInputProps {
     placeholder?: string;
 }
 
-export function ChatInput({ onSend, isLoading, placeholder = 'Ask Fortress anything...' }: ChatInputProps) {
+export function ChatInput({ onSend, isLoading, placeholder = 'Ask about Interswitch APIs...' }: ChatInputProps) {
     const [input, setInput] = useState('');
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 

@@ -84,6 +84,11 @@ export default {
                     "purple-dark": "hsl(var(--brand-purple-dark))",
                     purple: "hsl(var(--brand-purple))",
                     navy: "hsl(var(--brand-navy))",
+                    lavender: "hsl(var(--brand-lavender))",
+                },
+                isw: {
+                    red: "hsl(var(--isw-red))",
+                    "red-light": "hsl(var(--isw-red-light))",
                 },
             },
             borderRadius: {
