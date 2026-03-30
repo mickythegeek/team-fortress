@@ -29,7 +29,6 @@ app.add_middleware(
 
 # Initialize RAG components on startup
 VECTOR_DIR = AI_ASSISTANT_PATH / "data" / "vectorstore"
-model = None
 collection = None
 
 @app.on_event("startup")
@@ -50,12 +49,7 @@ class ChatResponse(BaseModel):
 
 def query_rag(question: str, n_results: int = 5):
     """Query the RAG pipeline and return results with sources."""
-    global model, collection
-    
-    if model is None:
-        print("⏳ Lazy loading SentenceTransformer (this takes a moment on boot)...")
-        from sentence_transformers import SentenceTransformer
-        model = SentenceTransformer("all-MiniLM-L6-v2")
+    global collection
         
     if collection is None:
         print("⏳ Connecting to Vector Database...")
@@ -63,7 +57,15 @@ def query_rag(question: str, n_results: int = 5):
         client = chromadb.PersistentClient(path=str(VECTOR_DIR))
         collection = client.get_or_create_collection("support_knowledge")
     
-    query_embedding = model.encode(question).tolist()
+    import google.generativeai as genai
+    genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+    
+    result = genai.embed_content(
+        model="models/gemini-embedding-001",
+        content=question,
+        task_type="retrieval_query"
+    )
+    query_embedding = result['embedding']
     results = collection.query(
         query_embeddings=[query_embedding],
         n_results=n_results

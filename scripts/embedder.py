@@ -1,12 +1,18 @@
 import json
+import os
 import shutil
 from pathlib import Path
-from sentence_transformers import SentenceTransformer
+from dotenv import load_dotenv
+import google.generativeai as genai
 import chromadb
 from chromadb.config import Settings
 
-# Use a lightweight embedding model
-MODEL_NAME = "all-MiniLM-L6-v2"
+# Load environment variables explicitly from backend
+env_path = Path(__file__).parent.parent / "web_platform" / "backend" / ".env"
+load_dotenv(dotenv_path=env_path)
+
+# Use Gemini's embedding model
+MODEL_NAME = "models/gemini-embedding-001"
 
 
 def load_chunks(chunks_path: str) -> list:
@@ -29,9 +35,13 @@ def main():
     
     chunks = load_chunks(chunks_path)
     
-    # Initialize embedding model
-    print(f"📥 Loading embedding model: {MODEL_NAME}")
-    model = SentenceTransformer(MODEL_NAME)
+    # Initialize Gemini embedding model
+    print(f"📥 Configuring Gemini embedding model: {MODEL_NAME}")
+    api_key = os.getenv("GEMINI_API_KEY")
+    if not api_key:
+        print("❌ GEMINI_API_KEY environment variable not found.")
+        return
+    genai.configure(api_key=api_key)
     
     # Initialize ChromaDB — clear old data first
     vectorstore_path = Path("../ai-support-assistant/data/vectorstore")
@@ -55,8 +65,13 @@ def main():
         chunk_id = str(chunk['id'])
         chunk_text = chunk['text']
         
-        # Generate embedding
-        embedding = model.encode(chunk_text).tolist()
+        # Generate embedding via Gemini
+        result = genai.embed_content(
+            model=MODEL_NAME,
+            content=chunk_text,
+            task_type="retrieval_document"
+        )
+        embedding = result['embedding']
         
         # Add to ChromaDB
         collection.add(
