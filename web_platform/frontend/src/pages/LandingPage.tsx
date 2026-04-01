@@ -571,7 +571,7 @@ export default function LandingPage() {
                             onClick={() => navigate('/chat')}
                             className="rounded-full px-12 shadow-glow"
                         >
-                            Launch the Copilot
+                            Launch FORTRESS
                             <ArrowRight className="w-5 h-5 ml-2" />
                         </Button>
                     </div>

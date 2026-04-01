@@ -26,16 +26,6 @@ export function Logo({ className, showText = true, size = 'md', showInterswitch 
 
     return (
         <div className={cn('flex items-center gap-2.5', className)}>
-            <div className={cn(
-                'relative flex items-center justify-center',
-                sizeClasses[size]
-            )}>
-                <img
-                    src="/Fortress_Logo.png"
-                    alt="Fortress Logo"
-                    className="h-full w-full object-contain"
-                />
-            </div>
             {showText && (
                 <div className="flex items-center gap-2">
                     <span className={cn(

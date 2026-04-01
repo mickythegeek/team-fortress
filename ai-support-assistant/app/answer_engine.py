@@ -70,9 +70,12 @@ def normalize_context(text: str) -> str:
     )
 
 def execute_sandbox_auth() -> str:
-    """Executes a live API call to fetch a real OAuth Access Token from the Interswitch QA Sandbox."""
-    client_id = "IKIAB23A4E2756605C1ABC33CE3C287E27267F660D61"
-    secret = "secret"
+    """Executes a live API call to fetch a real OAuth Access Token from the Interswitch QA Sandbox using user secrets."""
+    import os
+    # Default to the sandbox generic test combo if user hasn't supplied their own in the .env
+    client_id = os.getenv("INTERSWITCH_CLIENT_ID", "IKIAB23A4E2756605C1ABC33CE3C287E27267F660D61")
+    secret = os.getenv("INTERSWITCH_SECRET_KEY", "secret")
+    
     auth_str = f"{client_id}:{secret}"
     b64_auth = base64.b64encode(auth_str.encode()).decode()
     
@@ -90,14 +93,51 @@ def execute_sandbox_auth() -> str:
         return f'{{\n  "error": "Failed to generate Token: {str(e)}"\n}}'
 
 def execute_sandbox_card_payment() -> str:
-    """Simulates a Card Payment Execution to avoid 3rd-party sandbox downtime during demo."""
-    # Simulate API Latency
-    time.sleep(1.2)
-    mock_response = {
-      "status": "success",
-      "transaction_id": "TXN_12345"
-    }
-    return json.dumps(mock_response, indent=2)
+    """Executes a 100% LIVE Card Payment Execution against the Interswitch QA Sandbox."""
+    try:
+        # Step 1: Securely Fetch Token exactly like the auth flow
+        import os
+        client_id = os.getenv("INTERSWITCH_CLIENT_ID", "IKIAB23A4E2756605C1ABC33CE3C287E27267F660D61")
+        secret = os.getenv("INTERSWITCH_SECRET_KEY", "secret")
+        
+        b64_auth = base64.b64encode(f"{client_id}:{secret}".encode()).decode()
+        token_url = "https://qa.interswitchng.com/passport/oauth/token?grant_type=client_credentials"
+        token_headers = {
+            "Authorization": f"Basic {b64_auth}",
+            "Content-Type": "application/x-www-form-urlencoded"
+        }
+        
+        token_res = requests.post(token_url, data={"grant_type": "client_credentials"}, headers=token_headers)
+        token_res.raise_for_status()
+        token = token_res.json().get("access_token")
+        
+        # Step 2: Hit the Live Pay-Bill or Payment Endpoint
+        url = "https://qa.interswitchng.com/collections/api/v1/pay-bill"
+        payload = {
+            "merchantCode": "MX6072",
+            "payableCode": "9405967",
+            "amount": "10000",
+            "redirectUrl": "https://localhost:8780/payment-success",
+            "customerId": "v@example.com",
+            "currencyCode": "566",
+            "customerEmail": "v@example.com"
+        }
+        
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {token}"
+        }
+        
+        # It's an authentic external execution. If Interswitch 405s, the system will accurately reflect exactly what happened.
+        p_res = requests.post(url, json=payload, headers=headers)
+        
+        if p_res.status_code != 200:
+             return f'{{\n  "status": "server_error",\n  "http_code": {p_res.status_code},\n  "server_response": {p_res.text}\n}}'
+             
+        return json.dumps(p_res.json(), indent=2)
+
+    except Exception as e:
+        return f'{{\n  "status": "failed",\n  "error": "Failed to execute Live Sandbox Endpoint: {str(e)}"\n}}'
 
 def generate_answer(question: str, context_docs: list[str], max_retries: int = 3) -> str:
     api_key = os.getenv("GEMINI_API_KEY")
