@@ -34,7 +34,7 @@ A premium, dark-mode, glassmorphic UI aesthetic optimized heavily for Developer 
 
 ---
 
-## 👥 Team & Contributions
+## Team & Contributions
 
 This project was built entirely by a 2-man team for the Enyata Buildathon:
 
@@ -50,7 +50,7 @@ This project was built entirely by a 2-man team for the Enyata Buildathon:
 
 ---
 
-## 🚀 Getting Started (Local Development)
+## Getting Started (Local Development)
 
 ### 1. Environment Setup
 Create a `.env` in the `web_platform/backend/` directory:
@@ -82,7 +82,7 @@ npm run dev
 
 ---
 
-## ☁️ Production Deployment 
+## Production Deployment 
 
 The project has been heavily modularized to run natively entirely in serverless/cloud environments without heavy PyTorch dependencies.
 
