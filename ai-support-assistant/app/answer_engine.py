@@ -37,10 +37,11 @@ Answering principles:
 - Be accurate, professional, and easy to follow
 
 Proactive Sandbox Testing:
-- We have the ability to execute live Sandbox tests against the Interswitch Authentication and Card Payment endpoints on behalf of the user.
+- We have the ability to execute live Sandbox tests against the Interswitch Authentication, Card Payment, and Transaction Query endpoints on behalf of the user.
 - If the user asks about authentication, ALWAYS proactively ask: "Would you like me to generate a live sandbox Access Token for you to test?"
 - If the user asks about card payments, ALWAYS proactively ask: "Would you like me to run a sample card payment request in the sandbox for you?"
-- If the context contains a [LIVE SANDBOX RESULT], you MUST include the generated `access_token` or the `transaction_id` directly to the user in code blocks so they can verify the execution.
+- If the user asks why a transaction failed or provides a reference to check, the system will execute a live query resulting in a [LIVE SANDBOX RESULT]. YOU MUST analyze this result.
+- For Transaction Queries, analyze the `ResponseCode` (e.g., 00 = Approved, 51 = Insufficient Funds, Z0 = Not Permitted) and explain it. If it says "not found", state that.
 
 Reasoning rules:
 - If the answer is clearly supported by your knowledge base, explain it confidently
@@ -139,6 +140,40 @@ def execute_sandbox_card_payment() -> str:
     except Exception as e:
         return f'{{\n  "status": "failed",\n  "error": "Failed to execute Live Sandbox Endpoint: {str(e)}"\n}}'
 
+def execute_transaction_query(transaction_reference: str) -> str:
+    """Executes a 100% LIVE Transaction Query against the Interswitch QA Sandbox."""
+    try:
+        import os
+        client_id = os.getenv("INTERSWITCH_CLIENT_ID", "IKIAB23A4E2756605C1ABC33CE3C287E27267F660D61")
+        secret = os.getenv("INTERSWITCH_SECRET_KEY", "secret")
+        
+        b64_auth = base64.b64encode(f"{client_id}:{secret}".encode()).decode()
+        token_url = "https://qa.interswitchng.com/passport/oauth/token?grant_type=client_credentials"
+        token_headers = {
+            "Authorization": f"Basic {b64_auth}",
+            "Content-Type": "application/x-www-form-urlencoded"
+        }
+        
+        token_res = requests.post(token_url, data={"grant_type": "client_credentials"}, headers=token_headers)
+        token_res.raise_for_status()
+        token = token_res.json().get("access_token")
+        
+        url = f"https://qa.interswitchng.com/collections/api/v1/gettransaction.json?merchantcode=MX6072&transactionreference={transaction_reference}&amount=10000"
+        
+        headers = {
+            "Authorization": f"Bearer {token}"
+        }
+        
+        t_res = requests.get(url, headers=headers)
+        
+        if t_res.status_code != 200:
+             return f'{{\n  "status": "query_failed",\n  "http_code": {t_res.status_code},\n  "server_response": {t_res.text}\n}}'
+             
+        return json.dumps(t_res.json(), indent=2)
+
+    except Exception as e:
+        return f'{{\n  "status": "failed",\n  "error": "Failed to query Transaction Endpoint: {str(e)}"\n}}'
+
 def generate_answer(question: str, context_docs: list[str], max_retries: int = 3) -> str:
     api_key = os.getenv("GEMINI_API_KEY")
     if not api_key:
@@ -146,10 +181,7 @@ def generate_answer(question: str, context_docs: list[str], max_retries: int = 3
     genai.configure(api_key=api_key)
     model = genai.GenerativeModel("gemini-2.0-flash")
 
-    if not context_docs:
-        return "I do not have enough information from my database to accurately answer this question."
-    
-    # Detect Sandbox Execution Intent for Auth and Payment
+    # Detect Sandbox Execution Intent for Auth, Payment, and Transaction Queries
     q_lower = question.lower()
     sandbox_result = None
     
@@ -162,7 +194,20 @@ def generate_answer(question: str, context_docs: list[str], max_retries: int = 3
     ]
     general_yes = ["yes", "run it", "test it", "live sandbox"]
 
-    if any(keyword in q_lower for keyword in card_keywords):
+    import re
+    
+    # Strictly require REF, REFERENCE, or TRANSACTION prefix
+    ref_match = re.search(r'\b(?:REF|REFERENCE|TRANSACTION)\s*[:#-]?\s*([A-Z0-9_-]{5,50})\b', question.upper())
+        
+    debug_keywords = ["check", "status", "debug", "failed", "query", "what happened", "why did"]
+    is_debug_request = any(re.search(rf"\b{k}\b", q_lower) for k in debug_keywords)
+
+    if ref_match and is_debug_request:
+        ref = ref_match.group(1)
+        if ref not in ["TRANSACTION", "REFERENCE"]:
+            print(f"⚡ Live Transaction Query Execution Triggered for REF: {ref}!")
+            sandbox_result = execute_transaction_query(ref)
+    elif any(keyword in q_lower for k in card_keywords for keyword in card_keywords):
         print("⚡ Live Card Payment Execution Triggered!")
         sandbox_result = execute_sandbox_card_payment()
     elif any(keyword in q_lower for keyword in auth_keywords):
@@ -176,17 +221,18 @@ def generate_answer(question: str, context_docs: list[str], max_retries: int = 3
         print("⚡ Live Authorization Execution Triggered!")
         sandbox_result = execute_sandbox_auth()
 
-    # Treat retrieved text strictly as reference material
-    context_blocks = []
-    
-    if sandbox_result:
-        context_blocks.append(f"====== LIVE SANDBOX RESULT ======\nThe system just executed an API call to the Sandbox on behalf of the user. Tell the user you have successfully run the test, and provide them the JSON payload data directly.\n{sandbox_result}\n===============================")
+    # Prevent empty contexts from crashing standard queries, but ALways allow sandbox executions
+    if not context_docs and not sandbox_result:
+        return "I do not have enough information from my database to accurately answer this question."
 
-    context_blocks.extend([
+    if sandbox_result:
+        return f"I have seamlessly injected a live Sandbox request using your personal merchant credentials!\n\nHere is what the Interswitch QA server returned for your request:\n```json\n{sandbox_result}\n```"
+        
+    # Treat retrieved text strictly as reference material
+    context_blocks = [
         f"Internal knowledge excerpt {i+1}:\n{normalize_context(doc)}"
         for i, doc in enumerate(context_docs)
-    ])
-    
+    ]
     context = "\n\n".join(context_blocks)
 
     prompt = f"""

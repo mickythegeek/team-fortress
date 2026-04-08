@@ -119,8 +119,7 @@ export function useChat() {
         setMessages(prev => [...prev, assistantMessage]);
 
         try {
-            const apiUrl = import.meta.env.VITE_API_URL ? `${import.meta.env.VITE_API_URL}/api/chat` : 'http://localhost:8000/api/chat';
-            const response = await fetch(apiUrl, {
+            const response = await fetch('http://localhost:8000/api/chat', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
